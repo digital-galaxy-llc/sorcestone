@@ -1,0 +1,2 @@
+pycparser==2.22
+telescope @ git+https://github.com/digital-galaxy-llc/telescope.git@0.1.0
