@@ -1,9 +1,9 @@
 import subprocess
 from functools import partial
-from code_utils import extract_code
+from sorcestone.utils.code_utils import extract_code
 
-from iteration import Iteration, FakeIteration
-from logger import logger
+from sorcestone.main.iteration import Iteration, FakeIteration
+from sorcestone.utils.logger import logger
 
 
 def get_test_file_name(file_path):

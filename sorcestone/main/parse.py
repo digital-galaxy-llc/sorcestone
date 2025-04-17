@@ -42,7 +42,7 @@ import re
 from pycparser import parse_file, c_ast
 from pycparser.plyparser import Coord
 
-from logger import logger
+from sorcestone.utils.logger import logger
 
 
 # START META PROCESSING

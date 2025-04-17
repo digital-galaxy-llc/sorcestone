@@ -3,9 +3,9 @@ import subprocess
 from functools import partial
 import json
 
-from code_utils import extract_code
-from iteration import Iteration
-from logger import logger
+from sorcestone.utils.code_utils import extract_code
+from sorcestone.main.iteration import Iteration
+from sorcestone.utils.logger import logger
 
 PROJECT_ROOT = os.path.dirname(__file__)
 
