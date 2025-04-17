@@ -1,4 +1,4 @@
-from logger import logger
+from sorcestone.utils.logger import logger
 
 
 class Iteration(object):
