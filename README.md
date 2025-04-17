@@ -33,8 +33,12 @@ If you wish to use this software in a commercial or closed-source project, a com
 
 ## Contributing
 
-We welcome contributions from the open-source community.
+We welcome contributions from the open-source community. 
+
+## Test Samples Repository
+
+Our test samples, used to develop, test, and improve the framework, are available in the [c2rust-samples GitHub repository](https://github.com/digital-galaxy-llc/c2rust-samples). This repository contains a diverse collection of C programs that serve as test cases for the Sorcerer's Stone translation tool.
 
 ## Contact
 
-For more information, questions, or support, please contact sales@digitalgalaxy.llc
+For more information, questions, or support, please sales@digitalgalaxy.llc
