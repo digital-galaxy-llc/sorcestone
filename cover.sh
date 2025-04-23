@@ -1,3 +1,3 @@
 #!/bin/bash
-PYTHONPATH=. coverage run --source=sorcestone ./runtests.py
+PYTHONPATH=. coverage run ./runtests.py
 coverage xml && coverage report
