@@ -17,7 +17,7 @@ def get_log_path(log_file_name: str) -> str:
     today = datetime.now().strftime("%Y-%m-%d")
     
     # Create logs base directory
-    logs_base_dir = os.path.join(os.path.dirname(__file__), '.logs')
+    logs_base_dir = os.path.join(os.path.dirname(__file__), '../../.logs')
     
     # Create date-specific subdirectory
     logs_date_dir = os.path.join(logs_base_dir, today)
