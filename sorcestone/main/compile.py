@@ -15,7 +15,7 @@ def compile_c_code(file_path, skip=False):
         return ""
 
     PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-    compile_script = os.path.join(PROJECT_ROOT, 'compile_c.sh')
+    compile_script = os.path.join(PROJECT_ROOT, '../scripts/compile_c.sh')
     result = subprocess.run(
         [
             '/bin/bash', '-c',

@@ -20,7 +20,7 @@ def test_validation_callback(response, file_path="", test_file=""):
     with open(rust_file, 'w+') as f:
         f.write(response)
 
-    compile_script = os.path.join(PROJECT_ROOT, 'compile_rust.sh')
+    compile_script = os.path.join(PROJECT_ROOT, '../scripts/compile_rust.sh')
     result = subprocess.run(
         [
             '/bin/bash', '-c',
