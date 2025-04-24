@@ -36,7 +36,6 @@
 #------------------------------------------------------------------------------
 
 import json
-import os
 import re
 
 from pycparser import parse_file, c_ast
@@ -122,9 +121,16 @@ def to_json(node, **kwargs):
     return json.dumps(to_dict(node), **kwargs)
 
 
-def file_to_dict(filename):
+def file_to_dict(filename, cpp_args=None):
     """ Load C file into dict representation of ast """
-    ast = parse_file(filename, use_cpp=True, cpp_path='gcc', cpp_args=["-E"])
+    cpp_args = cpp_args.split() if cpp_args else []
+
+    ast = parse_file(filename,
+                     use_cpp=True,
+                     cpp_path='gcc',
+                     cpp_args=["-E"] + cpp_args
+                     )
+
     return to_dict(ast)
 
 
@@ -185,7 +191,7 @@ def from_json(ast_json):
     return from_dict(json.loads(ast_json))
 
 
-def c_to_meta(file_name, skip=False):
+def c_to_meta(file_name, skip=False, cpp_args=None):
     """
     Convert a C file to its meta representation
     
@@ -199,7 +205,7 @@ def c_to_meta(file_name, skip=False):
     logger.info(json_out_file)
 
     if not skip:
-        ast_dict = file_to_dict(file_name)
+        ast_dict = file_to_dict(file_name, cpp_args)
         ast = from_dict(ast_dict)
         with open(json_out_file, "w+") as f:
             json.dump(to_dict(ast), f, indent=4, sort_keys=True)

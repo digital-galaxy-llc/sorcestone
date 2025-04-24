@@ -10,7 +10,7 @@ from sorcestone.main.generate_tests import get_test_gen_stage
 from sorcestone.main.generate_rust import get_rust_gen_stage
 
 
-def process_file(file_path):
+def process_file(file_path, cpp_args=None):
     """
     Process a single file to generate its meta model
 
@@ -29,7 +29,7 @@ def process_file(file_path):
     c_compile_result = compile_c_code(file_path, skip=check_list['compile_c'])
 
     logger.info("Generating C code meta model")
-    meta_file = c_to_meta(file_name=file_path, skip=check_list['c_to_meta'])
+    meta_file = c_to_meta(file_name=file_path, skip=check_list['c_to_meta'], cpp_args=cpp_args)
     # client = get_client(vendor='anthropic', model='claude-3-7-sonnet-latest')
     client = get_client(vendor='anthropic', model='claude-3-5-sonnet-latest')
     # client = get_client(vendor='google', model='gemini-2.0-flash')
@@ -61,6 +61,12 @@ def parse_arguments() -> argparse.Namespace:
         type=str,
         help='Path to the C source file to be translated (mandatory)'
     )
+    parser.add_argument(
+        '--cpp_args',
+        type=str,
+        default="",
+        help="cpp args to be provided during the meta model generation. Space separated list of flags expected"
+    )
     return parser.parse_args()
 
 
@@ -81,7 +87,7 @@ def main():
         logger.info(f"========Processing {args.file_path}  ===========")
 
         # Process the file
-        rust_file = process_file(os.path.abspath(args.file_path))
+        rust_file = process_file(os.path.abspath(args.file_path), cpp_args=args.cpp_args)
 
         # Log completion
         logger.info(f"========Done processing {args.file_path}  ===========")
