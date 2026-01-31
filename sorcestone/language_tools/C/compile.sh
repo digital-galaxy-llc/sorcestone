@@ -1,5 +1,0 @@
-#!/bin/bash
-echo "== Source file to be compiled $1"  
-echo "== Output file to be created $2"  
-
-time gcc -shared -fPIC $1 -o $2

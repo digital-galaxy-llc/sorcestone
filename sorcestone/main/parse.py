@@ -37,11 +37,11 @@
 
 import json
 import re
-import argparse
-import os
 
 from pycparser import parse_file, c_ast
 from pycparser.plyparser import Coord
+
+from sorcestone.utils.logger import logger
 
 
 # START META PROCESSING
@@ -191,19 +191,25 @@ def from_json(ast_json):
     return from_dict(json.loads(ast_json))
 
 
-def c_to_meta(file_path, ast_file_path, cpp_args=None):
+def c_to_meta(file_name, skip=False, cpp_args=None):
     """
     Convert a C file to its meta representation
     
     Args:
-        file_path (str): Path to the C file to convert
-        ast_file_path (str): Path to the AST file to write result to
-        cpp_args ([str]): List of cpp flags required for precompiler
+        file_name (str): Path to the C file to convert
+    
+    Returns:
+        str: Path to the generated meta file
     """
-    ast_dict = file_to_dict(file_path, cpp_args)
-    ast = from_dict(ast_dict)
-    with open(ast_file_path, "w+") as f:
-        json.dump(to_dict(ast), f, indent=4, sort_keys=True)
+    json_out_file = ".".join([file_name.split(".")[0], "meta"])
+    logger.info(json_out_file)
+
+    if not skip:
+        ast_dict = file_to_dict(file_name, cpp_args)
+        ast = from_dict(ast_dict)
+        with open(json_out_file, "w+") as f:
+            json.dump(to_dict(ast), f, indent=4, sort_keys=True)
+    return json_out_file
 
 
 def process_file(file_path):
@@ -213,36 +219,6 @@ def process_file(file_path):
     Args:
         file_path (str): Path to the file to process
     """
+    logger.info("Generating C code meta model")
     json_file = c_to_meta(file_name=file_path)
     return json_file
-
-
-def cli():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        'src_file_path',
-        type=str,
-        help='Path to the C source file to be translated (mandatory)'
-    )
-    parser.add_argument(
-        'ast_file_path',
-        type=str,
-        help='Path to the AST file to create (mandatory)'
-    )
-    parser.add_argument(
-        '--cpp_args',
-        type=str,
-        default="",
-        help="cpp args to be provided during the meta model generation. Space separated list of flags expected"
-    )
-    args = parser.parse_args()
-    
-    c_to_meta(
-        file_path=os.path.abspath(args.src_file_path), 
-        ast_file_path=os.path.abspath(args.ast_file_path), 
-        cpp_args=args.cpp_args
-    )
-
-
-if __name__ == "__main__":
-    cli()
