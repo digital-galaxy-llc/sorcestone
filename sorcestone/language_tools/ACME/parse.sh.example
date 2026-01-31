@@ -1,0 +1,6 @@
+#!/bin/bash
+echo "== Source file to be parsed $1"
+echo "== AST file to be created $2"
+echo "== Pre-Processor args $3"
+
+#<Parsing logic placeholder>
