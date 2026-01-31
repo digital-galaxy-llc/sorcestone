@@ -1,9 +1,15 @@
-PROJECT_FOLDER=$1
-PROJECT_NAME=$2
+#!/bin/bash
+SRC_FILE=$1
+DST_FILE=$2
 
-cd $PROJECT_FOLDER
-echo "=== Clean ==="
-rm -rf $PROJECT_NAME
+echo "== Source file to be compiled $SRC_FILE"  
+echo "== Output file to be created $DST_FILE"  
+
+BUILD_FOLDER=$(mktemp -d)
+PROJECT_NAME=$(basename $(dirname  $SRC_FILE))
+
+cd $BUILD_FOLDER
+echo "BUILD_DIR - ${BUILD_FOLDER}"
 echo "=== Init ==="
 cargo new --lib $PROJECT_NAME 
 cd $PROJECT_NAME 
@@ -16,19 +22,18 @@ echo "=== Check Cargo Toml ==="
 cat Cargo.toml
 
 echo "=== Copy Source Code ==="
-cp ../$PROJECT_NAME.rs src/lib.rs
+cp $SRC_FILE src/lib.rs
 
 echo "=== Check lib RS ==="
 cat src/lib.rs
 
 echo "=== Build ==="
-time cargo build --release 
+time cargo build --release
 BUILD_RETURN_CODE=$?
 
 echo "=== Copy artefact ==="
-cp target/release/lib$PROJECT_NAME.dylib ../$PROJECT_NAME.rust.so
-cp target/release/lib$PROJECT_NAME.dylib ../$PROJECT_NAME.rs.so
+cp target/release/lib$PROJECT_NAME.dylib $DST_FILE
 
+rm -rf $BUILD_FOLDER
 echo "=== Done ==="
-cd ../
 exit $BUILD_RETURN_CODE
